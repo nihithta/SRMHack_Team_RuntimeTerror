@@ -1,2 +1,1 @@
-#Air Quality Predictor 
-##Case Study: Bangalore
+Air Quality Predictor 
