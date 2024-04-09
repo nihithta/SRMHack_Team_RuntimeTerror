@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Air Quality Data</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Open+Sans:wght@300&family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500&display=swap" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch data from API and update HTML
+            function fetchData() {
+                $.ajax({
+                    url: '/api/data',  // API endpoint
+                    success: function(data) {
+                        // Update HTML content with fetched data
+                        if (data && data.results) {
+                            var results = data.results;
+                            var html = '<h2>Air Quality Data</h2><table><tr><th>Location</th><th>Parameter</th><th>Value</th><th>Last Updated</th><th>Unit</th></tr>';
+                            
+                            results.forEach(function(result) {
+                                result.measurements.forEach(function(measurement) {
+                                    html += '<tr>';
+                                    html += '<td>' + result.location + '</td>';
+                                    html += '<td>' + measurement.parameter + '</td>';
+                                    html += '<td>' + measurement.value + '</td>';
+                                    html += '<td>' + measurement.lastUpdated + '</td>';
+                                    html += '<td>' + measurement.unit + '</td>';
+                                    html += '</tr>';
+                                });
+                            });
+
+                            html += '</table>';
+                            $('#data-container').html(html);  // Update data container with HTML
+                        } else {
+                            $('#data-container').html('<p>Error: Failed to fetch data.</p>');
+                        }
+                    },
+                    error: function() {
+                        $('#data-container').html('<p>Error: Failed to fetch data.</p>');
+                    }
+                });
+            }
+
+            // Fetch data initially when the page loads
+            fetchData();
+
+            // Set interval to periodically update data (every 5 minutes, for example)
+            setInterval(fetchData, 300000);  // 300000 ms = 5 minutes
+        });
+  
+    </script>
+
+    <script>
+    document.getElementById('toggle-mode').addEventListener('change', function() {
+    
+        console.log('Toggle button clicked')
+        var bannerContainer = document.getElementById('banner');
+    
+        if (this.checked) {
+    
+        bannerContainer.classList.toggle("dark-mode");
+        } else {      bannerContainer.classList.remove("dark-mode");
+        }
+    });  
+    
+    function inactive() {
+        window.alert("Sorry, we don't have the data for that region yet.")
+    }
+    </script>
+
+    <style>
+        .logo-design {
+            font-family: "Geologica";
+            font-weight: bold;
+            border-style: solid;
+            border-color: rgb(0, 0, 0);
+
+            padding-right: 8px;
+            padding: 6px;
+        }
+
+        #navItem1 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+        #navItem2 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+        #navItem3 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+        #navItem4 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+
+        .navbtn:hover {
+            text-decoration: underline;
+        }
+
+        .custom-upload-button {
+        text-decoration: none;
+        font-size: 22px;
+        color: #ffffff;
+        font-family: "Geologica";
+        background-color: rgb(93, 194, 203);
+        width: 200px;
+        height: 75px;
+        border-width: 2px;
+        border-radius: 25px;
+        margin-right: 10px;
+        margin-left: 50px;
+        margin-top: 15px;
+        border-style: none;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.5s;
+        cursor: pointer;
+        color: inherit;
+        }
+
+        .custom-upload-button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+        }
+
+        .custom-upload-button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+        }
+
+        .custom-upload-button:hover span {
+        padding-right: 25px;
+        }
+
+        .custom-upload-button:hover span:after {
+        opacity: 1;
+        right: 0;
+        }
+
+
+        .upload-heading {
+
+        margin: 50px;
+        margin-right: none;
+        }
+
+        .upload-heading-2 {
+        text-align: left;
+        font-family: "Gabarito";
+        font-size: 80px;
+        font-weight: bold;
+        margin: 30px;
+        margin-right: none;
+        }
+
+
+        .upload-sub-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 35px;
+        margin-top: none;
+        margin-right: none;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        background-size: cover;
+        } 
+
+        body {
+            background: linear-gradient(45deg, #FFC700, #FF0900, #FF00E0, #7328ff, #4800FF);
+            background-size: 400% 400%; /* Make sure the gradient covers the entire page */
+            animation: gradientAnimation 15s ease infinite; /* Animation to transition colors */
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            margin: 10px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+        
+        /* Dark mode styles */
+        .dark-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .para {
+            text-align: left;
+            font-family: "Gabarito";
+            font-size: 25px;
+            margin-left: 30px;
+            margin-right: none;
+        }
+
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="home.html">
+            <h1 class="logo-design">RuntimeTerror.</h1>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+              <a
+                style="color: rgb(0, 0, 0)"
+                class="nav-link active navbar-spacing navbtn"
+                href="home.html"
+                id="navItem1"
+              >
+                Home
+                <span class="sr-only">(current)</span>
+              </a>
+              <a
+                style="color: rgb(0, 0, 0)"
+                class="nav-link navbar-spacing navbtn"
+                href="api.html"
+                id="navItem2"
+                >Air Parameters</a
+              >
+              
+              <a
+                style="color: rgb(0, 0, 0)"
+                class="nav-link navbar-spacing navbtn"
+                href="effects.html"
+                id="navItem4"
+                >Adverse Effects</a
+              >
+    
+              <a
+                style="color: rgb(0, 0, 0)"
+                class="nav-link navbar-spacing navbtn"
+                href="why_us.html"
+                id="navItem4"
+                >UNEP Goals</a
+              >
+              <li class="nav-item">
+                <div class="toggle-container">
+                    <i class="fa-solid fa-moon" style="font-size: 20px; margin-top: 5px;" ></i>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-mode">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+              </li>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <div class="upload-sub-container d-flex flex-row justify-content-center " id="banner" >
+        <div class="col-6 banner-container" id="banner">
+          <h1 class="upload-heading-2">Select your Region.</h1>
+          <p class="para">Your air updates are a click away.</p>
+          
+        </div>
+    <div id="map">
+        <img src="https://i.pinimg.com/736x/0d/48/c6/0d48c62577ae43489c49a83013369a02.jpg"  alt="India Map" usemap="#indiamap">
+        <div class="bubble" id="bubble">
+        </div>
+        <map name="indiamap">
+            <area  onclick="inactive()" alt="AP" title="AP" href="" coords="253,541,246,594,243,613,230,640,230,661,245,669,262,676,275,689,275,704,288,696,324,686,319,651,336,619,356,605,404,573,413,551,414,522,386,547,355,563,337,551,317,533,301,515,274,507,263,522" shape="poly">
+            <area  alt="Karnataka" title="Karnataka" href="index.html" coords="151,639,160,609,174,586,197,572,222,566,249,548,246,584,241,603,236,622,229,632,226,643,228,663,249,674,266,676,273,693,273,702,254,707,247,722,241,733,224,739,213,736,189,721,168,701" shape="poly">
+            <area  onclick="inactive()" alt="TN" title="TN" href="" coords="213,735,232,769,238,797,237,837,268,822,292,800,294,772,315,769,314,729,326,686,259,702,242,728" shape="poly">
+            <area  onclick="inactive()" alt="MH" title="MH" href="" coords="119,497,153,476,162,445,170,458,190,457,214,469,254,449,282,458,327,453,331,472,330,494,332,517,338,517,326,528,278,507,256,523,253,534,239,550,217,568,197,570,176,585,160,595,155,618,141,618,130,599,118,537" shape="poly">
+        </map>
+        <div class="overlay"></div>
+    </div>
+      </div>
+
+    <div id="data-container"></div>
+
+    <script>
+        function inactive() {
+        window.alert("Sorry, we don't have the data for that region yet.")
+        }
+    </script>
+</body>
+</html>

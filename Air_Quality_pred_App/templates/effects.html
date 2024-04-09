@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Air Quality Data</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Open+Sans:wght@300&family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500&display=swap" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch data from API and update HTML
+            function fetchData() {
+                $.ajax({
+                    url: '/api/data',  // API endpoint
+                    success: function(data) {
+                        // Update HTML content with fetched data
+                        if (data && data.results) {
+                            var results = data.results;
+                            var html = '<h2>Air Quality Data</h2><table><tr><th>Location</th><th>Parameter</th><th>Value</th><th>Last Updated</th><th>Unit</th></tr>';
+                            
+                            results.forEach(function(result) {
+                                result.measurements.forEach(function(measurement) {
+                                    html += '<tr>';
+                                    html += '<td>' + result.location + '</td>';
+                                    html += '<td>' + measurement.parameter + '</td>';
+                                    html += '<td>' + measurement.value + '</td>';
+                                    html += '<td>' + measurement.lastUpdated + '</td>';
+                                    html += '<td>' + measurement.unit + '</td>';
+                                    html += '</tr>';
+                                });
+                            });
+
+                            html += '</table>';
+                            $('#data-container').html(html);  // Update data container with HTML
+                        } else {
+                            $('#data-container').html('<p>Error: Failed to fetch data.</p>');
+                        }
+                    },
+                    error: function() {
+                        $('#data-container').html('<p>Error: Failed to fetch data.</p>');
+                    }
+                });
+            }
+
+            // Fetch data initially when the page loads
+            fetchData();
+
+            // Set interval to periodically update data (every 5 minutes, for example)
+            setInterval(fetchData, 300000);  // 300000 ms = 5 minutes
+        });
+  
+    </script>
+
+    <style>
+        .logo-design {
+            font-family: "Geologica";
+            font-weight: bold;
+            border-style: solid;
+            border-color: rgb(0, 0, 0);
+
+            padding-right: 8px;
+            padding: 6px;
+        }
+
+        #navItem1 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+        #navItem2 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+        #navItem3 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+        #navItem4 {
+            font-size: 20px;
+            color: #323f4b;
+            font-family: "Geologica";
+            font-weight: bold;
+        }
+
+        .navbtn:hover {
+            text-decoration: underline;
+        }
+
+        .custom-upload-button {
+        text-decoration: none;
+        font-size: 22px;
+        color: #ffffff;
+        font-family: "Geologica";
+        background-color: rgb(93, 194, 203);
+        width: 200px;
+        height: 75px;
+        border-width: 2px;
+        border-radius: 25px;
+        margin-right: 10px;
+        margin-left: 50px;
+        margin-top: 15px;
+        border-style: none;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.5s;
+        cursor: pointer;
+        color: inherit;
+        }
+
+        .custom-upload-button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+        }
+
+        .custom-upload-button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+        }
+
+        .custom-upload-button:hover span {
+        padding-right: 25px;
+        }
+
+        .custom-upload-button:hover span:after {
+        opacity: 1;
+        right: 0;
+        }
+
+
+        .upload-heading {
+
+        margin: 50px;
+        margin-right: none;
+        }
+
+        .upload-heading-2 {
+        text-align: left;
+        font-family: "Gabarito";
+        font-size: 50px;
+        font-weight: bold;
+        margin: 30px;
+        margin-right: none;
+        }
+
+        .upload-sub-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 35px;
+        margin-top: none;
+        margin-right: none;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        background-size: cover;
+        } 
+
+     
+        .toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            margin: 10px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+        
+        /* Dark mode styles */
+        .dark-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .para {
+            text-align: left;
+            font-family: "Gabarito";
+            font-size: 25px;
+            margin-left: 30px;
+            margin-right: none;
+        }
+
+        #gmap {
+            align-self: center ;
+            margin: 15px;
+            width: 96vw;
+            height: 450px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .card {
+            margin: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-style: none;
+            border-radius: 12px;
+            padding: 10px;
+            background-color: beige;
+            margin-bottom: 10px;
+        }
+
+        table {
+            margin-left: 7px;
+            margin-right: 7px;
+            align-self: center;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="home.html">
+            <h1 class="logo-design">RuntimeTerror.</h1>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+              <a
+                style="color: rgb(255, 255, 255)"
+                class="nav-link active navbar-spacing navbtn"
+                href="home.html"
+                id="navItem1"
+              >
+                Home
+                <span class="sr-only">(current)</span>
+              </a>
+              <a
+                style="color: rgb(255, 255, 255)"
+                class="nav-link navbar-spacing navbtn"
+                href="api.html"
+                id="navItem2"
+                >Air Paramters</a
+              >
+              
+              <a
+                style="color: rgb(255, 255, 255)"
+                class="nav-link navbar-spacing navbtn"
+                href="effects.html"
+                id="navItem4"
+                >Adverse Effects</a
+              >
+    
+              <a
+                style="color: rgb(255, 255, 255)"
+                class="nav-link navbar-spacing navbtn"
+                href="why_us.html"
+                id="navItem4"
+                >UNEP Goals</a
+              >
+            </div>
+          </div>
+        </div>
+    </nav>
+
+<h2 class="upload-heading-2">PM Effects Table</h2>
+
+<div style="margin: 10px;">
+    <table>
+    <tr>
+        <th>PM Type</th>
+        <th>Age-Based Effects</th>
+        <th>Gender-Based Effects</th>
+        <th>Genetics-Based Effects</th>
+    </tr>
+    <tr>
+        <td>PM10</td>
+        <td>
+            <ul>
+                <li>Children: Increased respiratory symptoms, impaired lung development.</li>
+                <li>Older Adults: Exacerbated respiratory and cardiovascular issues.</li>
+                <li>Inconsistent findings in epidemiological studies regarding mortality risks.</li>
+                <li>Specific gene variants may impact severity of health outcomes.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Dosimetric differences between sexes.</li>
+                <li>Polymorphisms in antioxidant genes may influence susceptibility.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Polymorphisms in antioxidant genes may influence susceptibility.</li>
+                <li>Specific gene variants may impact severity of health outcomes.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>PM2.5</td>
+        <td>
+            <ul>
+                <li>Children: Increased respiratory symptoms, impaired lung development.</li>
+                <li>Older Adults: Exacerbated cardiovascular morbidity and mortality.</li>
+                <li>Inconsistent findings in epidemiological studies regarding mortality risks.</li>
+                <li>Specific gene variants may impact severity of health outcomes.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Dosimetric differences between sexes.</li>
+                <li>Polymorphisms in antioxidant genes may influence susceptibility.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Polymorphisms in antioxidant genes may influence susceptibility.</li>
+                <li>Specific gene variants may impact severity of health outcomes.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Ultrafine Particles (UFPs)</td>
+        <td>
+            <ul>
+                <li>Children: Increased susceptibility due to higher respiratory exposure.</li>
+                <li>Older Adults: Exacerbated cardiovascular and respiratory effects.</li>
+                <li>Inconsistent findings in epidemiological studies regarding mortality risks.</li>
+                <li>Specific gene variants may impact severity of health outcomes.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Dosimetric differences between sexes.</li>
+                <li>Polymorphisms in antioxidant genes may influence susceptibility.</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Polymorphisms in antioxidant genes may influence susceptibility.</li>
+                <li>Specific gene variants may impact severity of health outcomes.</li>
+            </ul>
+        </td>
+    </tr>
+    </table>
+
+    <br/>
+    <br/>
+    <br/>
+    <h2 class="upload-heading-2">A deeper glance.</h2>
+    <div style="margin: 10px;">
+        <table>
+            <tr>
+              <th>Category</th>
+              <th>Subcategory</th>
+              <th>Effects</th>
+            </tr>
+            <tr>
+              <td rowspan="2">Effects of PM on Children</td>
+              <td>Respiratory Effects</td>
+              <td>
+                  Children potentially more susceptible due to factors like increased outdoor time and activity levels.<br>
+                  Increased respiratory symptoms observed compared to adults, such as wheezing and coughing.
+              </td>
+            </tr>
+            <tr>
+              <td>Developmental Impacts</td>
+              <td>
+                  Toxicological studies suggest impaired lung development and reduced cellular proliferation in neonatal animals.<br>
+                  Exposure during critical developmental periods may lead to long-term respiratory issues.
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2">Effects of PM on Older Adults</td>
+              <td>Respiratory and Cardiovascular Effects</td>
+              <td>
+                  Older adults susceptible due to physiological decline and higher prevalence of preexisting diseases.<br>
+                  Increased cardiovascular morbidity and mortality observed upon short-term PM exposure in older adults, especially those over 75.
+              </td>
+            </tr>
+            <tr>
+              <td>Decreased Heart Rate Variability (HRV)</td>
+              <td>
+                  Controlled exposure studies reveal decreased HRV in older adults after PM2.5 exposure.<br>
+                  Associations between PM exposure and respiratory-related hospital admissions observed in older adults.
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2">Sex Differences in PM-related Health Effects</td>
+              <td>Dosimetric Differences</td>
+              <td>
+                  Dosimetric studies demonstrate sex-related differences in particle localization and deposition rate.<br>
+                  Females tend to have proportionally smaller airways and slightly greater airway reactivity compared to males.
+              </td>
+            </tr>
+            <tr>
+              <td>Epidemiological Findings</td>
+              <td>
+                  Inconsistent results regarding the health effects of PM exposure observed in sex-stratified analyses.<br>
+                  Some evidence suggests increased risk of cardiovascular mortality in females and respiratory mortality in males upon PM exposure.
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2">Gene-Environment Interactions</td>
+              <td>Impact on Antioxidant Function</td>
+              <td>
+                  Polymorphisms in genes like GST may lead to reduced antioxidant defenses against inhaled oxidants.<br>
+                  Individuals with specific GST gene polymorphisms may experience larger decreases in HRV upon PM exposure.
+              </td>
+            </tr>
+            <tr>
+              <td>Influence of HMOX1 and Fibrinogen Genes</td>
+              <td>
+                  Polymorphisms in genes like HMOX1 and fibrinogen genes may influence susceptibility to PM-related health effects.<br>
+                  Specific variants may confer more pronounced effects on HRV and increase the risk of cardiovascular events in response to PM exposure.
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="2">Obesity and PM-related Health Effects</td>
+              <td>Inflammatory Responses</td>
+              <td>
+                  Obesity exacerbates the adverse health effects of PM exposure, possibly due to systemic inflammation.<br>
+                  Overweight or obese individuals show reduced HRV, higher inflammatory markers, and larger reductions in flow-mediated dilation upon PM exposure.
+              </td>
+            </tr>
+            <tr>
+              <td>Potential Factors Contributing to Greater Response</td>
+              <td>
+                  Higher response observed in obese individuals may be attributed to a higher PM dose rate.<br>
+                  Overweight children demonstrate increased tidal volume and resting minute ventilation with higher BMI.
+              </td>
+            </tr>
+          </table>
+    </div>
+</div>
+
+</body>
+</html>

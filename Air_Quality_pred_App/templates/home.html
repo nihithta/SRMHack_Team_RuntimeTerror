@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Open+Sans:wght@300&family=Poppins:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyC-P0SlLLTfDOAzS-O3P4FbcBGAbqB7VSM",
+        authDomain: "weather-predictor-21935.firebaseapp.com",
+        databaseURL: "https://weather-predictor-21935-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "weather-predictor-21935",
+        storageBucket: "weather-predictor-21935.appspot.com",
+        messagingSenderId: "190398822276",
+        appId: "1:190398822276:web:b9da9fc535da46db340fd1",
+        measurementId: "G-6BNK15F9XH"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+
+      async function fetchDataAndStoreInFirebase() {
+        try {
+          const options = {method: 'GET', headers: {accept: 'application/json'}};
+
+          fetch('https://api.openaq.org/v2/locations?limit=5&page=1&offset=0&sort=desc&parameter=pm10&parameter=pm25&coordinates=12.90915364%2C77.52476183&radius=1000&country=IN&location_id=2498781&order_by=lastUpdated&dump_raw=false', options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+
+            console.log('Data stored in Firebase:', data);
+        } catch (error) {
+            console.error('Error fetching data from OpenAQ API:', error);
+        }
+      }
+
+
+      const options = {
+        method: 'GET',
+        headers: { accept: 'application/json' }
+      };
+
+      fetch('https://crossorigin.me/https://api.openaq.org/v3/locations?country_id=IN&city=Bangalore&limit=100&page=1', options)
+        .then(response => response.json())
+        .then(response => {
+          const bangaloreData = response.results.filter(location => location.city === 'Bangalore');
+          console.log(bangaloreData);
+        })
+        .catch(err => console.error(err));
+
+
+
+
+    </script>
+
+
+
+    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clickable Map of India</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="home.html">
+        <h1 class="logo-design">RuntimeTerror.</h1>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a
+            style="color: rgb(0, 0, 0)"
+            class="nav-link active navbar-spacing navbtn"
+            href="home.html"
+            id="navItem1"
+          >
+            Home
+            <span class="sr-only">(current)</span>
+          </a>
+          <a
+            style="color: rgb(0, 0, 0)"
+            class="nav-link navbar-spacing navbtn"
+            href="api.html"
+            id="navItem2"
+            >Air Paramters</a
+          >
+          
+          <a
+            style="color: rgb(0, 0, 0)"
+            class="nav-link navbar-spacing navbtn"
+            href="effects.html"
+            id="navItem4"
+            >Adverse Effects</a
+          >
+
+          <a
+            style="color: rgb(0, 0, 0)"
+            class="nav-link navbar-spacing navbtn"
+            href="why_us.html"
+            id="navItem4"
+            >UNEP Goals</a
+          >
+          <li class="nav-item">
+            <div class="toggle-container">
+                <img src="https://images.pexels.com/photos/47367/full-moon-moon-bright-sky-47367.jpeg?cs=srgb&dl=pexels-pixabay-47367.jpg&fm=jpg" height="40px" width="40px" style="border-radius: 100px;"/>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-mode">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </li>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="upload-sub-container d-flex flex-row justify-content-center " id="banner" >
+    <div class="col-6 banner-container">
+      <h1 class="upload-heading-2">Welcome to Air Quality Predictor.</h1>
+      <p class="para">Get Real time updates with our state of the art algorithm.</p>
+      <button class="custom-upload-button" onclick="window.location.href='api.html'"><span>Get started</span></button>
+    </div>
+    <div class="img-container d-flex flex-column col-6">
+        <dotlottie-player src="https://lottie.host/be9c2f7e-bcac-48d2-96fe-7d60d413c2c7/NmEk7ozrwM.json" class="floating-image" background="transparent" speed="1" style="width: 440px; height: 440px;" loop autoplay></dotlottie-player>
+
+    </div>
+  </div>
+
+  <script src="effects.js"></script>
+</body>
+</html>
